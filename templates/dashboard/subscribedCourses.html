@@ -1,0 +1,58 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+     <div class="container">
+
+        <div class="row">
+            <div class="col text-center">
+               <div class="fw-bolder fs-1"> Courses Subscribed by {{ request.user }}!</div>
+            </div>
+        </div>
+        <hr class="mb-5"/>
+
+        {% if courses %}
+            {% for course in courses %}
+                <div class="col-12 mt-3 mb-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ course.courseID }} - {{ course.courseName }} <span class="badge bg-warning">New</span></h5>
+                            {{ course.courseDescription }}
+                            <br/>
+                            <small>The course is reated On: <span
+                                    class="fw-bold fst-italic">{{ course.createdOn }}</span> and
+                                is created to complete in <span
+                                        class="fw-bold fst-italic">{{ course.courseDuration }}</span></small>
+                            <br/>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for unit in units %}
+                                    {% if course == unit.course %}
+                                        <tr>
+                                            <td class="fw-bold fst-italic">{{ unit.unitName }}</td>
+                                            <td class="fw-light">{{ unit.unitDescription }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-danger fs-6 text-center fw-bold">
+                No Courses are subscribed, visit <a href="{% url 'courses' %}" class="text-decoration-none text-secondary">all courses</a> to subscribe to new courses !
+            </div>>
+        {% endif %}
+    </div>
+
+{% endblock content %}

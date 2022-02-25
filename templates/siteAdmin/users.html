@@ -1,0 +1,44 @@
+{% extends 'siteAdmin/adminbase.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="text-center mt-5 fw-bolder fs-1">Users in EzyLearn</div>
+        <table class="table table-striped mt-5">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">User Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Role</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date Joined</th>
+                <th scope="col">Last Access</th>
+                <th scope="col">Manage</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ user }}</td>
+                    <td class="fw-bold">{% if user.is_active %}Active{% else %}In Active{% endif %}</td>
+                    <td>{% if user.is_superuser %}Admin{% elif user.is_staff %}Staff{% else %}Student{% endif %}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.date_joined }}</td>
+                    <td>{{ user.last_login }}</td>
+                    <td>{% if user.is_superuser %}{% else %}
+                        <form name="userStatus" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="user" id="user" value="{{ user }}">
+                            <button type="submit" class="btn btn-sm btn-danger">Toggle Status</button>
+                        </form>
+                    {% endif %}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+{% endblock content %}

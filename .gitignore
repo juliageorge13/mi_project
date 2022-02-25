@@ -1,0 +1,10 @@
+venv/
+db.sqlite3
+.idea/
+dashboard/__pycache__/
+dashboard/migrations/__pycache__/
+ezylearn/__pycache__/
+
+siteadmin/__pycache__/
+siteadmin/migrations/__pycache__/
+__pycache__/

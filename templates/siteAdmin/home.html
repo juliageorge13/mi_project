@@ -1,0 +1,471 @@
+{% extends 'siteAdmin/adminbase.html' %}
+{% block content %}
+
+    <div class="container mb-5">
+
+        <div class="row mt-5">
+            <div class="col text-center">
+                <div class="fw-bold fs-3">Quick Access !</div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Manage Users</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="{% url 'admin-users' %}" class="btn btn-primary">Manage Users</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Manage Course</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="{% url 'admin-courses' %}" class="btn btn-primary">Manage Courses</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Manage Subscription</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="{% url 'admin-subscription-details' %}" class="btn btn-primary">Manage Subscription</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col text-center">
+                <div class="fw-bold fs-3">Usage Summary !</div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Summary 1</h5>
+                        <div id="chart1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Summary 2</h5>
+                        <div id="chart2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Summary 3</h5>
+                        <div id="chart3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Summary 4</h5>
+                        <div id="chart4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var options = {
+            series: [14, 23, 21, 17, 15, 10, 12, 17, 21],
+            chart: {
+                type: 'polarArea',
+                height: 360,
+            },
+            stroke: {
+                colors: ['#fff']
+            },
+            fill: {
+                opacity: 0.8
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart1"), options);
+        chart.render();
+
+        var options = {
+            series: [{
+                name: 'COURSE A',
+                type: 'column',
+                data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
+            }, {
+                name: 'COURSE B',
+                type: 'area',
+                data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
+            }, {
+                name: 'COURSE C',
+                type: 'line',
+                data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
+            }],
+            chart: {
+                height: 350,
+                type: 'line',
+                stacked: false,
+            },
+            stroke: {
+                width: [0, 2, 5],
+                curve: 'smooth'
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: '50%'
+                }
+            },
+
+            fill: {
+                opacity: [0.85, 0.25, 1],
+                gradient: {
+                    inverseColors: false,
+                    shade: 'light',
+                    type: "vertical",
+                    opacityFrom: 0.85,
+                    opacityTo: 0.55,
+                    stops: [0, 100, 100, 100]
+                }
+            },
+            labels: ['01/01/2003', '02/01/2003', '03/01/2003', '04/01/2003', '05/01/2003', '06/01/2003', '07/01/2003',
+                '08/01/2003', '09/01/2003', '10/01/2003', '11/01/2003'
+            ],
+            markers: {
+                size: 0
+            },
+            xaxis: {
+                type: 'datetime'
+            },
+            yaxis: {
+                title: {
+                    text: 'Points',
+                },
+                min: 0
+            },
+            tooltip: {
+                shared: true,
+                intersect: false,
+                y: {
+                    formatter: function (y) {
+                        if (typeof y !== "undefined") {
+                            return y.toFixed(0) + " points";
+                        }
+                        return y;
+
+                    }
+                }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart2"), options);
+        chart.render();
+
+        var options = {
+          series: [
+          // George Washington
+          {
+            name: 'Data Science',
+            data: [
+              {
+                x: 'Level 1',
+                y: [
+                  new Date(1789, 3, 30).getTime(),
+                  new Date(1797, 2, 4).getTime()
+                ]
+              },
+            ]
+          },
+          // John Adams
+          {
+            name: 'AI and ML',
+            data: [
+              {
+                x: 'Level 1',
+                y: [
+                  new Date(1797, 2, 4).getTime(),
+                  new Date(1801, 2, 4).getTime()
+                ]
+              },
+              {
+                x: 'Level 2',
+                y: [
+                  new Date(1789, 3, 21).getTime(),
+                  new Date(1797, 2, 4).getTime()
+                ]
+              }
+            ]
+          },
+          // Thomas Jefferson
+          {
+            name: 'Big Data',
+            data: [
+              {
+                x: 'Level 1',
+                y: [
+                  new Date(1801, 2, 4).getTime(),
+                  new Date(1809, 2, 4).getTime()
+                ]
+              },
+              {
+                x: 'Level 2',
+                y: [
+                  new Date(1797, 2, 4).getTime(),
+                  new Date(1801, 2, 4).getTime()
+                ]
+              },
+              {
+                x: 'Level 3',
+             y: [
+                  new Date(1790, 2, 22).getTime(),
+                  new Date(1793, 11, 31).getTime()
+                ]
+              }
+            ]
+          },
+          // Aaron Burr
+          {
+            name: 'Business Intelligence',
+            data: [
+              {
+                x: 'Level 2',
+                y: [
+                  new Date(1801, 2, 4).getTime(),
+                  new Date(1805, 2, 4).getTime()
+                ]
+              }
+            ]
+          },
+          // George Clinton
+          {
+            name: 'Cloud Computing',
+            data: [
+              {
+                x: 'Level 2',
+                y: [
+                  new Date(1805, 2, 4).getTime(),
+                  new Date(1812, 3, 20).getTime()
+                ]
+              }
+            ]
+          },
+          // John Jay
+          {
+            name: 'Project Management',
+            data: [
+              {
+                x: 'Level 3',
+                y: [
+                  new Date(1789, 8, 25).getTime(),
+                  new Date(1790, 2, 22).getTime()
+                ]
+              }
+            ]
+          },
+          // Edmund Randolph
+          {
+            name: 'Software Development',
+            data: [
+              {
+                x: 'Level 3',
+                y: [
+                  new Date(1794, 0, 2).getTime(),
+                  new Date(1795, 7, 20).getTime()
+                ]
+              }
+            ]
+          },
+          // Timothy Pickering
+          {
+            name: 'Cybersecurity',
+            data: [
+              {
+                x: 'Level 3',
+                y: [
+                  new Date(1795, 7, 20).getTime(),
+                  new Date(1800, 4, 12).getTime()
+                ]
+              }
+            ]
+          },
+          // Charles Lee
+          {
+            name: 'Networking',
+            data: [
+              {
+                x: 'Level 3',
+                y: [
+                  new Date(1800, 4, 13).getTime(),
+                  new Date(1800, 5, 5).getTime()
+                ]
+              }
+            ]
+          },
+          // John Marshall
+          {
+            name: 'DevOps',
+            data: [
+              {
+                x: 'Level 3',
+                y: [
+                  new Date(1800, 5, 13).getTime(),
+                  new Date(1801, 2, 4).getTime()
+                ]
+              }
+            ]
+          },
+          // Levi Lincoln
+          {
+            name: 'Digital Marketing',
+            data: [
+              {
+                x: 'Level 3',
+                y: [
+                  new Date(1801, 2, 5).getTime(),
+                  new Date(1801, 4, 1).getTime()
+                ]
+              }
+            ]
+          },
+          // James Madison
+          {
+            name: 'Blockchain',
+            data: [
+              {
+                x: 'Level 3',
+                y: [
+                  new Date(1801, 4, 2).getTime(),
+                  new Date(1809, 2, 3).getTime()
+                ]
+              }
+            ]
+          },
+        ],
+          chart: {
+          height: 350,
+          type: 'rangeBar'
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            barHeight: '50%',
+            rangeBarGroupRows: true
+          }
+        },
+        colors: [
+          "#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0",
+          "#3F51B5", "#546E7A", "#D4526E", "#8D5B4C", "#F86624",
+          "#D7263D", "#1B998B", "#2E294E", "#F46036", "#E2C044"
+        ],
+        fill: {
+          type: 'solid'
+        },
+        xaxis: {
+          type: 'datetime'
+        },
+        legend: {
+          position: 'right'
+        },
+        tooltip: {
+          custom: function(opts) {
+            const fromYear = new Date(opts.y1).getFullYear()
+            const toYear = new Date(opts.y2).getFullYear()
+            const values = opts.ctx.rangeBar.getTooltipValues(opts)
+
+            return (
+              ''
+            )
+          }
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart3"), options);
+        chart.render();
+
+          var options = {
+          series: [{
+          name: 'COURSE A',
+          data: [44, 55, 41, 67, 22, 43]
+        }, {
+          name: 'COURSE B',
+          data: [13, 23, 20, 8, 13, 27]
+        }, {
+          name: 'COURSE C',
+          data: [11, 17, 15, 15, 21, 14]
+        }, {
+          name: 'COURSE D',
+          data: [21, 7, 25, 13, 22, 8]
+        }],
+          chart: {
+          type: 'bar',
+          height: 350,
+          stacked: true,
+          toolbar: {
+            show: true
+          },
+          zoom: {
+            enabled: true
+          }
+        },
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            legend: {
+              position: 'bottom',
+              offsetX: -10,
+              offsetY: 0
+            }
+          }
+        }],
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            borderRadius: 10
+          },
+        },
+        xaxis: {
+          type: 'datetime',
+          categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
+            '01/05/2011 GMT', '01/06/2011 GMT'
+          ],
+        },
+        legend: {
+          position: 'right',
+          offsetY: 40
+        },
+        fill: {
+          opacity: 1
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart4"), options);
+        chart.render();
+    </script>
+
+{% endblock content %}

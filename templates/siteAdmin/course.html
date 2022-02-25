@@ -1,0 +1,224 @@
+{% extends 'siteAdmin/adminbase.html' %}
+{% block content %}
+
+    <div class="container">
+
+        <div class="row mt-5">
+
+            <div class="col-12">
+                <div class="fs-1 fw-bolder text-center">Courses in EzyLearn</div>
+            </div>
+
+            {% if courses %}
+                {% for course in courses %}
+                    <div class="col-sm-6 mt-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <a class="float-end text-danger text-decoration-none" href="">Edit</a>
+                                <h5 class="card-title mb-3">{{ course.courseID }} - {{ course.courseName }}</h5>
+
+                                <p><span class="fw-bold fst-italic">{{ course.courseDescription }}</span>
+                                </p>
+                                <p>The course is reated On: <span
+                                        class="fw-bold fst-italic">{{ course.createdOn }}</span> and is created to
+                                    complete in <span class="fw-bold fst-italic">{{ course.courseDuration }}</span></p>
+
+                                <p>Details of Units in the Course:</p>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for unit in units %}
+                                        {% if course == unit.course %}
+                                            <tr>
+                                            <td class="fw-bold fst-italic">{{ unit.unitName }}</td>
+                                            <td class="fw-light">{{ unit.unitDescription }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                                <div class="col float-end">
+
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#modalNewUnit-{{ course.pk }}">
+                                        Add Units
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="modalNewUnit-{{ course.pk }}" data-bs-backdrop="static"
+                                         data-bs-keyboard="false" tabindex="-1"
+                                         aria-labelledby="modalNewUnitLabel-{{ course.pk }}"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog  modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalNewUnitLabel-{{ course.pk }}">Add
+                                                        new units to :
+                                                        {{ course.courseID }} - {{ course.courseName }}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form name="courseForm" method="POST">
+                                                        {% csrf_token %}
+
+                                                        <input type="hidden" name="courseName" value="{{ course.pk }}">
+
+                                                        <div class="form-floating mb-3">
+                                                            <input type="text" class="form-control" id="newUnitName"
+                                                                   name="newUnitName"
+                                                                   placeholder="Unit name" required>
+                                                            <label for="newUnitName">Unit Name</label>
+                                                        </div>
+
+                                                        <div class="form-floating mb-3">
+                                                            <textarea class="form-control"
+                                                                      placeholder="Course Description"
+                                                                      name="newUnitDescription" id="newUnitDescription"
+                                                                      style="height: 100px" required></textarea>
+                                                            <label for="newUnitDescription">Course Description</label>
+                                                        </div>
+
+                                                        <div class="form-floating mb-3">
+                                                            <select class="form-select" id="newUnitStatus"
+                                                                    name="newUnitStatus"
+                                                                    aria-label="Select course status" required>
+                                                                <option value="active" selected>Active</option>
+                                                                <option value="inactive">In-Active</option>
+                                                            </select>
+                                                            <label for="newUnitStatus">Status of Course</label>
+                                                        </div>
+
+                                                        <button class="btn btn-outline-success float-end" type="submit"
+                                                                id="button-newUnit-{{ course.pk }}">Add Unit
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary btn-sm"
+                                                            data-bs-dismiss="modal">
+                                                        Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-danger fs-6 text-center fw-bold">
+                    No Courses are added into the system, please add courses and define the units and subtopics
+                </div>
+            {% endif %}
+
+            <div class="col-sm-6 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Create New Course</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <div class="float-end">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#modalNewCourse">
+                                Add new Course
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalNewCourse" data-bs-backdrop="static"
+                                 data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalNewCourseLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog  modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalNewCoursepLabel">Add new course to
+                                                EzyLearn</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form name="courseForm" method="POST">
+                                                {% csrf_token %}
+
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="newCourseID"
+                                                           name="newCourseID"
+                                                           placeholder="course code" required>
+                                                    <label for="newCourseID">Course Code</label>
+                                                </div>
+
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="newCourseName"
+                                                           name="newCourseName"
+                                                           placeholder="course name" required>
+                                                    <label for="newCourseName">Course Name</label>
+                                                </div>
+
+                                                <div class="form-floating mb-3">
+                                                    <textarea class="form-control" placeholder="Course Description"
+                                                              name="newCourseDescription" id="newCourseDescription"
+                                                              style="height: 100px" required></textarea>
+                                                    <label for="newCourseDescription">Course Description</label>
+                                                </div>
+
+                                                <div class="form-floating mb-3">
+                                                    <select class="form-select" id="newCourseStatus"
+                                                            name="newCourseStatus"
+                                                            aria-label="Select course status" required>
+                                                        <option value="active" selected>Active</option>
+                                                        <option value="inactive">In-Active</option>
+                                                    </select>
+                                                    <label for="newCourseStatus">Status of Course</label>
+                                                </div>
+
+                                                <div class="form-floating mb-3">
+                                                    <select class="form-select" id="newCourseDuration"
+                                                            name="newCourseDuration"
+                                                            aria-label="Select course status" required>
+                                                        <option value="1 Month" selected>1 Month</option>
+                                                        <option value="3 Months">3 Months</option>
+                                                        <option value="6 Months">6 Months</option>
+                                                        <option value="1 Year">1 Year</option>
+                                                        <option value="2 Years">2 Years</option>
+                                                        <option value="3 Years">3 Years</option>
+                                                        <option value="4 Years">4 Years</option>
+                                                    </select>
+                                                    <label for="newCourseDuration">Course Duration</label>
+                                                </div>
+
+                                                <span class="mb-3 text-danger">Cross check your entries before submitting the form</span>
+
+                                                <button class="btn btn-outline-success float-end" type="submit"
+                                                        id="button-newCourse">Add
+                                                    Course
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary btn-sm"
+                                                    data-bs-dismiss="modal">
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock content %}
